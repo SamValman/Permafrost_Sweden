@@ -1,0 +1,9 @@
+# don't upload large sat imagery 
+*.tif
+*.tiff
+*.jpeg
+*.png
+*.jp2
+
+# no QGIS files
+*.qgz
