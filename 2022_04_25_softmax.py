@@ -74,7 +74,7 @@ def pick_band(bname):
     path = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\Permafrost_Sweden\WorkingOutputs\bands'
     p = '2022_04_25_B'+str(bname)+'.tif'
     path = os.path.join(path,p )
-    IO.imsave(path, band)
+    IO.imsave(path, band) # imwrite may be better
 
 for i in range(15):
     pick_band(i)
