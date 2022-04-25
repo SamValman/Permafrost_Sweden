@@ -7,3 +7,4 @@
 
 # no QGIS files
 *.qgz
+*.wld
