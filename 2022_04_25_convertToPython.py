@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 """
+###############################################################################
+Project: SWEDISH PERMAFROST
+###############################################################################
+
 Created on Tue Apr  5 13:31:30 2022
 %matplotlib qt
 Much of this is copied/altered from Martha Ledger
@@ -65,7 +69,7 @@ for i in y:
     l = np.argmax(i)
     ls.append(l)
 
-y = np.array(ls)
+y_2 = np.array(ls)
 print(y.shape)
 
 
@@ -92,8 +96,11 @@ model.add(Dense(64, activation=('relu')))
 model.add(Dense(15, activation=('softmax')))
 
 #compiler
-model.compile(optimizer = 'adam', loss = 'sparse_categorical_crossentropy',
-              metrics = ['sparse_categorical_accuracy'])
+# loss = 'sparse_categorical_crossentropy'# replaced so softmax cross entropy didnt work
+#sparse_categorical_accuracy for metric 
+# The problem was here in metrics - have tried AUC
+model.compile(optimizer = 'adam', loss = 'CategoricalCrossentropy',
+              metrics = ['Accuracy'])
 # print(model.summary())
 
 
@@ -117,11 +124,6 @@ print ('test accuracy:', test_accuracy)
 # s2 = cv2.imread(r"C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\2022_03_martha\s2\L1C_T34WDA_A012475_20190727T104030.tif")
 # prediction = model.predict(s2)
 
-#%%
-## Normalise 
-## tensorboard
-## do we need f2
-## can we run a s2 image? 
 
 #%%
 
@@ -196,6 +198,8 @@ print(ls.shape)
 predicted_image = ls.reshape((1,5490, 5490))
 
 #%%
+predicted_image = ls.reshape((5490, 5490))
+
 plt.figure()
 plt.title('titles')
 plt.imshow(predicted_image) #  clim=(0,0.3)
@@ -206,15 +210,15 @@ plt.show()
 
 
 
-fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\00_code\outputs\2022_04_21_s2this.tif'
+fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\00_code\outputs\2022_04_26_s2this.tif'
 IO.imsave(fn, ls)
 #%%
-fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\00_code\outputs\2022_04_21_ls.npy'
+fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\00_code\outputs\2022_04_26_ls_ACC.npy'
 np.save(fn, ls)
-fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\00_code\outputs\2022_04_21_predicted_image.npy'
+fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\00_code\outputs\2022_04_26_predicted_image_ACC.npy'
 np.save(fn, predicted_image)
 
-fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\00_code\outputs\2022_04_21_prediction.npy'
+fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\00_code\outputs\2022_04_26_prediction_ACC.npy'
 np.save(fn, prediction)
 #%%
 b = np.load(r"C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\00_code\outputs\2022_04_21_ls.npy")
