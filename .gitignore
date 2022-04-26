@@ -8,3 +8,5 @@
 # no QGIS files
 *.qgz
 *.wld
+*.vrt
+*.xml
