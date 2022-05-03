@@ -95,8 +95,8 @@ tensorboard = TensorBoard(log_dir=f"logs/{Name}")
 model = keras.models.Sequential()
 
 model.add(Dense(64, activation=('relu')))
-model.add(Dense(64, activation=('relu')))
-model.add(Dense(64, activation=('relu')))
+# model.add(Dense(64, activation=('relu')))
+# model.add(Dense(64, activation=('relu')))
 #output
 model.add(Dense(15, activation=(final_layer_AF)))
 
@@ -104,7 +104,7 @@ model.add(Dense(15, activation=(final_layer_AF)))
 model.compile(optimizer = optim, loss = loss, metrics = [metric])
 
 #fit model
-model.fit(X_train, y_train, epochs=epochs, batch_size=2, callbacks=[tensorboard])
+model.fit(X_train, y_train, epochs=epochs, batch_size=64, callbacks=[tensorboard])
 
 # results
 test_loss, test_accuracy = model.evaluate(X_test, y_test,callbacks=[tensorboard])
@@ -113,12 +113,18 @@ print ('test accuracy:', test_accuracy)
 #%%
 # Predict the test set 
 internal_predict = model.predict(X_test, verbose=1, batch_size=6)
-
+print(internal_predict)
 #argmax result
 internal_argmax = argmax_a_prediction(internal_predict)
 print(np.unique(internal_argmax))
-    
+#%% Format for Confusion Matrix
+t = pd.DataFrame(internal_predict)
+fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\Permafrost_Sweden\WorkingOutputs\2022_04_29.csv'
+t.to_csv(fn)
 
+t = pd.DataFrame(y_test)
+fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\Permafrost_Sweden\WorkingOutputs\2022_05_03_Y.csv'
+t.to_csv(fn)
 #%% SECTION 2: Predicting a new image (Whole S2 image)
 # Takes ~1.5-2.5 hrs depending on cpu etc so don't run for now
 print('''
