@@ -12,12 +12,7 @@ Created on Thu Apr 28 10:41:01 2022
 @author: lgxsv2
 """
 #%% Packages
-print('''
-      Two sections of script:
-          - training and testing
-          - Prediction 
-          packages only needed for section 2 are loaded there. 
-      ''')
+
 # general
 import pandas as pd
 import numpy as np
