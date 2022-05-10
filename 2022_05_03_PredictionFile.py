@@ -63,7 +63,7 @@ def plotimage(im, title):
     
     plt.figure()
     plt.imshow(im) 
-    plt.tile(title)
+    plt.title('title')
     plt.show() 
 
 def view_band(bname, im): 
