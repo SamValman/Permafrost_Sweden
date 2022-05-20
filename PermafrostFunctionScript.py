@@ -57,7 +57,7 @@ def join_rasters(path):
     print(multiBandImage.shape)
     return multiBandImage
 
-def implot(im, title='Satellite Image', normalize=False, prediction=True, save=False, fn=None):
+def implot(im, title='Satellite Image', normalize=False,sat=None,  prediction=True, save=False, fn=None):
     '''
     Plots image input 
     
@@ -71,6 +71,9 @@ def implot(im, title='Satellite Image', normalize=False, prediction=True, save=F
     normalize : Boolean, optional
         images not in the 0-1 or 0-255 range require normlising.
         The default is False.
+    sat: str
+        reshape size 
+        The default is None.
     prediction : Boolean, optional
         Is this a prediction e.g. 0-1 or an RGB. The default is True.
     save : Boolean, optional
@@ -86,18 +89,23 @@ def implot(im, title='Satellite Image', normalize=False, prediction=True, save=F
     '''
     if normalize:
         im = keras.utils.normalize(im)
+        
+    sat_dict = {'s2':(5490,5490), 'planet':(200,200)}
     
+    if sat != None:
+        im = im.reshape(sat_dict[sat])
+        
     fig = plt.figure()
     
     title = title +'\n'+ str(datetime.datetime.now().date())
     plt.title(title)
     if prediction: 
-        cmap = colors.ListedColormap(['lightblue', 'green'])
-        label0 = mpatches.Patch(color='lightblue', label='River')
-        label1 = mpatches.Patch(color='green', label='Land')
-        plt.legend(handles=[label0, label1])
+        # cmap = colors.ListedColormap(['lightblue', 'green'])
+        # label0 = mpatches.Patch(color='lightblue', label='River')
+        # label1 = mpatches.Patch(color='green', label='Land')
+        # plt.legend(handles=[label0, label1])
 
-        plt.imshow(im, cmap=cmap) #  clim=(0,0.3)
+        plt.imshow(im) #  clim=(0,0.3)
     else:
         plt.imshow(im)
     
@@ -120,7 +128,22 @@ def view_band(bname, im):
     band = im[:,bname].reshape(5490, 5490)
     implot(band, str(bname), prediction=False)    
 
-def view_argmax(prediction):
+def view_argmax(prediction, plot=False):
+    '''
+
+    Parameters
+    ----------
+    prediction : array
+        thin to be argmaxxed (assumes shape of S2 for print).
+    plot: boolean
+        default: False
+        plots image 
+    Returns
+    -------
+    just plots  atm .
+    argmax result
+
+    '''
     # argmax prediction
     ls = []
     for i in prediction:
@@ -131,8 +154,10 @@ def view_argmax(prediction):
             print(temp)
             break
     argmax_result = np.array(ls)
-    argmax_image = argmax_result.reshape((5490, 5490))
-    implot(argmax_image, 'argmax image', prediction=False)
+    if plot:
+        argmax_image = argmax_result.reshape((5490, 5490))
+        implot(argmax_image, 'argmax image', prediction=False)
+    return argmax_result
     
 def predict_s2(fn, model):
     #load multiband raster (MBR)
@@ -145,6 +170,21 @@ def predict_s2(fn, model):
     
     # predict
     prediction = model.predict(pX_normal, verbose=1, batch_size=64)
+
+    
+    return prediction
+
+def predict_rf(fn, model):
+    #load multiband raster (MBR)
+    mbr = join_rasters(fn)
+
+    
+    # format
+    pX = np.reshape(mbr, (30140100, 9))
+    pX_normal = keras.utils.normalize(pX)
+    
+    # predict
+    prediction = model.predict(pX_normal)
 
     
     return prediction

@@ -115,6 +115,13 @@ print(internal_predict)
 #argmax result
 internal_argmax = argmax_a_prediction(internal_predict)
 print(np.unique(internal_argmax))
+
+#%% Validation curves
+from sklearn.model_selection import learning_curve
+
+
+
+
 #%% Format for Confusion Matrix
 t = pd.DataFrame(internal_predict)
 fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\Permafrost_Sweden\WorkingOutputs\2022_04_29.csv'
@@ -125,8 +132,8 @@ fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA202
 t.to_csv(fn)
 #%% Save the model
 
-# saving without a file extension creates a recommended TF SavedModel format rather than h5
-model.save('MR1_76')
-# check the save 
-model_fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\Permafrost_Sweden\MR1_76'
-m = keras.models.load_model(model_fn)
+# # saving without a file extension creates a recommended TF SavedModel format rather than h5
+# model.save('MR1_76')
+# # check the save 
+# model_fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\Permafrost_Sweden\MR1_76'
+# m = keras.models.load_model(model_fn)
