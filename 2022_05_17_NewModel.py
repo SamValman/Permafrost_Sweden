@@ -40,15 +40,15 @@ X = np.array(ds.iloc[:,:9])
 
 #%% max_membership
 
-amx = view_argmax(y)
-# import matplotlib.pyplot as plt
-# plt.figure()
-# unique, counts = np.unique(amx, return_counts=True)
-# plt.figure()
-# plt.bar(unique, counts)
-# plt.show()
-amx1 = amx.reshape(3560,1)
-X = np.concatenate((X, amx1),axis=1)
+# amx = view_argmax(y)
+# # import matplotlib.pyplot as plt
+# # plt.figure()
+# # unique, counts = np.unique(amx, return_counts=True)
+# # plt.figure()
+# # plt.bar(unique, counts)
+# # plt.show()
+# amx1 = amx.reshape(3560,1)
+# X = np.concatenate((X, amx1),axis=1)
 
 
 #%%
@@ -75,9 +75,13 @@ optim = 'adam'
 loss = 'CategoricalCrossentropy'
 metric = 'Accuracy'
 
-epochs=10
+epochs=64
 
 model = keras.models.Sequential()
+
+model.add(Dense(128, activation=('softmax')))
+model.add(Dense(128, activation=('softmax')))
+model.add(Dense(128, activation=('softmax')))
 
 model.add(Dense(128, activation=('softmax')))
 
@@ -95,7 +99,7 @@ test_loss, test_accuracy = model.evaluate(X, y,callbacks=[tensorboard])
 print ('test loss: ', test_loss)
 print ('test accuracy:', test_accuracy)
 #%%
-model.save('MR3')
+# model.save('MR3')
 #%%
 internal_predict = model.predict(X_test, verbose=1, batch_size=128)
 

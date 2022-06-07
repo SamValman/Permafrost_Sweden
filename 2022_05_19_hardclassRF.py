@@ -131,3 +131,52 @@ t.to_csv(fn)
 t = pd.DataFrame(b_test)
 fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\Permafrost_Sweden\WorkingOutputs\rf_Y.csv'
 t.to_csv(fn)
+
+
+
+
+
+
+#%% SAME but with strict classification.
+fn = r"C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\2022_SwedishPermafrostDataRepository\2022_05_20_updatedTrainingDataset_Strict.csv"
+
+ds = pd.read_csv(fn)
+ds = ds.iloc[:,2:] # remove ID columns 
+
+# #predictor/labels split
+y =  np.array(ds.iloc[:,9:]) 
+X = np.array(ds.iloc[:,:9])
+
+X = keras.utils.normalize(X)
+amx = view_argmax(y)
+
+y = pd.get_dummies(amx)
+y=np.array(y)#.ravel()
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+#%% Random forest 
+
+
+rf = RandomForestRegressor(n_estimators = 2000, random_state = 42)
+z = rf.fit(X_train, y_train)
+
+
+#%%
+
+predictions = z.predict(X_test)
+internal_predict = predictions
+predictions = view_argmax(predictions)
+y_test = view_argmax(y_test)
+conf_mat = confusion_matrix(y_test, predictions)
+print(conf_mat)
+
+seaborn.heatmap(conf_mat)
+plt.show()
+
+#%%
+# Accuracy
+print('ac', accuracy_score(y_test, predictions))
+
+
+
