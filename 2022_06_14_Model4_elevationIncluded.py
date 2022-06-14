@@ -84,11 +84,13 @@ epochs=64
 
 model = keras.models.Sequential()
 
-model.add(Dense(128, activation=('softmax')))
-model.add(Dense(128, activation=('softmax')))
-model.add(Dense(128, activation=('softmax')))
+model.add(Dense(8, activation=('relu')))
 
-model.add(Dense(128, activation=('softmax')))
+
+# model.add(Dense(128, activation=('softmax')))
+# model.add(Dense(128, activation=('softmax')))
+
+# model.add(Dense(128, activation=('softmax')))
 
 #output
 model.add(Dense(15, activation=('softmax')))
