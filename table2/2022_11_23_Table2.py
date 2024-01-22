@@ -11,8 +11,9 @@ import skimage.io as IO
 import matplotlib.pyplot as plt 
 import numpy as np
 
-fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\.FinalFigures\2022_11_18_final\2022_11_23_Table2\files\*.tif'
-fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\.FinalFigures\2022_11_18_final\table2\2022_11_14_Table2\*tif'
+fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\.FinalFigures\2023_03_03_final\2022_11_23_Table2\files\*.tif'
+fn = r'C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\.FinalFigures\2022_03_03_final\table2\2022_11_14_Table2\*tif'
+fn = r"C:\Users\lgxsv2\OneDrive - The University of Nottingham\PhD\yr_2\01_RA2021_2022\2022_03_arctic\.FinalFigures\2023_03_03_final\table2_three\2022_11_14_Table2\*.tif"
 def giveMeVals(fn):
     print('  ')
     print('  ')
@@ -26,17 +27,18 @@ def giveMeVals(fn):
     im = im*1000
     
     total_area = len(im)
-    print('total_area ', ((total_area*20)/10000))
+    print(total_area)
+    print('total_area ', ((total_area*400)*0.0001))
     
     negative = im[im<0]
     negative = len(negative)
-    print('below zero ', ((negative*20)/10000))
+    print('below zero ', ((negative*400)*0.0001))
     
     print('min ', im.min())
     print('max ', im.max())
     
     lots = im[im<-3.5]
-    print('subsiding most ', ((len(lots)*20)/10000))
+    print('subsiding most ', ((len(lots)*400)*0.0001))
     
     
     # minimum = im.min()
@@ -59,5 +61,9 @@ for i in glob.glob(fn)[:]:
     # print(i)
     im = giveMeVals(i)
 
+
+# 20 by 20 is each which is 400m squared. 
+# therefore *by 400 
+#  then * by 0.0001 to get from m2 to ha
 
     # break

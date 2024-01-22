@@ -27,16 +27,16 @@ def files(typ='snow', site='abisko'):
     df = df[(df['Datum'] > '2000-01-01') & (df['Datum'] < '2022-01-01')]
 
     df.loc[(df!=0).any(axis=1)]
-    # if typ=='snow':
-    #     df = df.resample('Y', on='Datum').sum()
+    if typ=='snow':
+        df = df.resample('Y', on='Datum').sum()
     
-    #     df['Snödjup'] = df['Snödjup']/365
+        df['Snödjup'] = df['Snödjup']/365
     
 
-    # # df = df.loc[(df!=0).any(axis=1)]
-    #     df.replace(0, np.nan, inplace=True)
-    # else:
-    #     df = df.resample('Y', on='Datum').mean()
+    # df = df.loc[(df!=0).any(axis=1)]
+        df.replace(0, np.nan, inplace=True)
+    else:
+        df = df.resample('Y', on='Datum').mean()
 
     df = df.reset_index()
 
@@ -53,6 +53,7 @@ temp_a1 = files(typ='temp', site='abisko')
 temp_k1 = files(typ='temp', site='Karesuando')
 temp_k2 = files(typ='temp', site='Katterjakk')
 temp_n1 = files(typ='temp', site='Naimakka')
+# temp_kiruna = files(typ='temp', site='kiruna')
 
 
 # remove erronous values where part year 
